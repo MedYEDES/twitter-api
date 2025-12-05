@@ -32,6 +32,28 @@ node {
 			} 
 		}
 	}
+
+		stage('Sonar') {
+
+		 withSonarQubeEnv('Sonar') {
+
+	            withMaven(maven: 'maven') {
+
+			if(isUnix()) {
+
+				sh "mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MedYEDES_twitter-api" 
+
+			} else { 
+
+				bat "mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MedYEDES_twitter-api" 
+
+			} 
+
+		    } 
+
+		}
+
+	}
 	
 	stage('Build Docker Image') {
 		withMaven(maven: 'maven') {
